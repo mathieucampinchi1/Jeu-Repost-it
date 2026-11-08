@@ -1,0 +1,237 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Repost-it! — Usine de colis</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      📦 Repost-it<span>!</span>
+      <small>USINE DE TRAITEMENT</small>
+    </div>
+    <div class="topbar-right">
+      <div class="stats">
+        <div><small>TRÉSORERIE</small><strong id="money">500<i class="coin"></i></strong></div>
+        <div><small>JOUR</small><strong id="day">1</strong></div>
+        <div><small>COLIS EXPÉDIÉS</small><strong id="shipped">0</strong></div>
+        <div><small>RECETTES</small><strong id="revenue">0<i class="coin"></i></strong></div>
+      </div>
+      <div class="controls">
+        <button id="pauseBtn" class="secondary">Ⅱ Pause</button>
+        <button id="speedBtn" class="secondary">Vitesse ×1</button>
+        <button id="settingsBtn" class="secondary icon-btn" title="Règles du jeu" aria-label="Paramètres et règles du jeu">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="main-column">
+      <section class="factory panel" aria-label="Plan isométrique de l'usine">
+        <div class="stage" id="stage">
+          <div class="zoom-layer" id="zoomLayer">
+          <div class="iso-world">
+            <div class="factory-floor"></div>
+
+            <span class="blk" style="--x:0%;--y:0%;--w:100%;--d:2.6%;--bh:92px;--c:#566b7c;--rimg:repeating-linear-gradient(90deg,#d6ebf7 0 20px,transparent 20px 56px) 18px 34% / 100% 30% no-repeat,linear-gradient(#0000,#0004)"></span><span class="blk" style="--x:97.4%;--y:0%;--w:2.6%;--d:100%;--bh:92px;--c:#566b7c;--limg:repeating-linear-gradient(180deg,#d6ebf7 0 20px,transparent 20px 56px) 62% 18px / 30% 100% no-repeat,linear-gradient(90deg,#0000,#0004)"></span><span class="blk" style="--x:0%;--y:2.6%;--w:2.4%;--d:97.4%;--bh:16px;--c:#6b8193;--rimg:linear-gradient(#f1c66e,#f1c66e) 0 0 / 100% 14% no-repeat;--limg:linear-gradient(90deg,#0000,#0000)"></span><span class="blk" style="--x:2.4%;--y:97.6%;--w:97.6%;--d:2.4%;--bh:16px;--c:#6b8193;--rimg:linear-gradient(#f1c66e,#f1c66e) 0 0 / 100% 14% no-repeat;--limg:linear-gradient(90deg,#0000,#0000)"></span>
+
+            <span class="blk" style="--x:10%;--y:2.6%;--w:20%;--d:0.4%;--bh:58px;--c:#3c4b58;--rimg:linear-gradient(90deg,#0005,#0000 8%,#0000 92%,#0005),linear-gradient(#4a5a68,#4a5a68) 0 0 / 100% 12% no-repeat,linear-gradient(#f1c66e,#f1c66e) 0 100% / 100% 3% no-repeat,repeating-linear-gradient(180deg,#aab7c1 0 4px,#7d8b97 4px 5px)"></span><span class="blk" style="--x:97.0%;--y:61%;--w:0.4%;--d:18%;--bh:58px;--c:#3c4b58;--limg:linear-gradient(0deg,#0005,#0000 8%,#0000 92%,#0005),linear-gradient(90deg,#0000 0 88%,#4a5a68 88%),linear-gradient(90deg,#f1c66e 0 3%,#0000 3%),repeating-linear-gradient(90deg,#aab7c1 0 4px,#7d8b97 4px 5px)"></span>
+
+            <button class="station station-entry" id="entry" data-station="entry">
+              <span class="blk" style="--x:46%;--y:40%;--w:40%;--d:50%;--bh:5px;--c:#a8794a"><span class="blk" style="--x:6%;--y:8%;--w:42%;--d:80%;--bh:16px;--c:#c9985f"><span class="blk" style="--x:8%;--y:8%;--w:84%;--d:84%;--bh:13px;--c:#d9ae74"></span></span><span class="blk" style="--x:52%;--y:8%;--w:42%;--d:80%;--bh:16px;--c:#c08c55"></span></span><span class="blk" style="--x:12%;--y:14%;--w:24%;--d:24%;--bh:18px;--c:#8397a6;--rimg:linear-gradient(#10202c,#10202c) 15% 30% / 40% 40% no-repeat"></span><span class="blk" style="--x:60%;--y:10%;--w:18%;--d:24%;--bh:9px;--c:#d2a56a"></span>
+              <span class="billboard"><span class="bb-title"><i class="bb-icon">📥</i><b>ZONE D'ENTRÉE</b></span><span class="slot-count" id="entryCount">0 / 0</span></span>
+              <span class="parcel-row" id="entryParcels"></span>
+            </button>
+
+            <button class="station station-work" id="work" data-station="work">
+              <span class="blk" style="--x:8%;--y:34%;--w:84%;--d:34%;--bh:34px;--c:#7f93a5;--rimg:linear-gradient(#10202c,#10202c) 12% 30% / 46% 40% no-repeat,linear-gradient(#58c78a,#58c78a) 70% 40% / 8% 16% no-repeat,linear-gradient(#f1c66e,#f1c66e) 84% 40% / 8% 16% no-repeat"></span><span class="blk" style="--x:8%;--y:72%;--w:84%;--d:22%;--bh:8px;--c:#2b3742;--belt:1"></span><span class="blk" style="--x:62%;--y:14%;--w:14%;--d:14%;--bh:50px;--c:#e0a63f"></span><span class="blk" style="--x:80%;--y:14%;--w:10%;--d:10%;--bh:60px;--c:#58c78a"></span>
+              <span class="billboard"><span class="bb-title"><i class="bb-icon">🏷️</i><b>POSTE DE TRAITEMENT</b></span><span class="slot-count" id="workCount">0 / 0</span><span class="progress"><span id="workProgress"></span></span><span class="machine-light"></span></span>
+              <span class="parcel-row" id="workParcels"></span>
+            </button>
+
+            <button class="station station-storage" id="storage" data-station="storage">
+              <span class="grp" style="--x:8%;--y:10%;--w:30%;--d:80%"><span class="blk" style="--x:0%;--y:0%;--w:100%;--d:100%;--bh:15px;--c:#cdd5db;--th:2px"></span><span class="blk" style="--x:0%;--y:0%;--w:100%;--d:100%;--bh:30px;--c:#cdd5db;--th:2px"></span><span class="blk" style="--x:0%;--y:0%;--w:100%;--d:100%;--bh:45px;--c:#cdd5db;--th:2px"></span><span class="blk" style="--x:0%;--y:0%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:90%;--y:0%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:0%;--y:47%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:90%;--y:47%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:0%;--y:95%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:90%;--y:95%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:18%;--y:6%;--w:64%;--d:26%;--bh:25px;--c:#d9ae74;--th:10px"></span><span class="blk" style="--x:18%;--y:36%;--w:64%;--d:26%;--bh:25px;--c:#b98a52;--th:10px"></span><span class="blk" style="--x:18%;--y:66%;--w:64%;--d:26%;--bh:25px;--c:#58a6d8;--th:10px"></span><span class="blk" style="--x:18%;--y:6%;--w:64%;--d:26%;--bh:40px;--c:#e0a63f;--th:10px"></span><span class="blk" style="--x:18%;--y:66%;--w:64%;--d:26%;--bh:40px;--c:#d9ae74;--th:10px"></span><span class="blk" style="--x:18%;--y:6%;--w:64%;--d:26%;--bh:55px;--c:#c9985f;--th:10px"></span><span class="blk" style="--x:18%;--y:36%;--w:64%;--d:26%;--bh:55px;--c:#d9ae74;--th:10px"></span><span class="blk" style="--x:18%;--y:66%;--w:64%;--d:26%;--bh:55px;--c:#b98a52;--th:10px"></span></span><span class="grp" style="--x:58%;--y:10%;--w:30%;--d:80%"><span class="blk" style="--x:0%;--y:0%;--w:100%;--d:100%;--bh:15px;--c:#cdd5db;--th:2px"></span><span class="blk" style="--x:0%;--y:0%;--w:100%;--d:100%;--bh:30px;--c:#cdd5db;--th:2px"></span><span class="blk" style="--x:0%;--y:0%;--w:100%;--d:100%;--bh:45px;--c:#cdd5db;--th:2px"></span><span class="blk" style="--x:0%;--y:0%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:90%;--y:0%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:0%;--y:47%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:90%;--y:47%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:0%;--y:95%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:90%;--y:95%;--w:10%;--d:5%;--bh:58px;--c:#3f6fa8"></span><span class="blk" style="--x:18%;--y:6%;--w:64%;--d:26%;--bh:25px;--c:#d9ae74;--th:10px"></span><span class="blk" style="--x:18%;--y:36%;--w:64%;--d:26%;--bh:25px;--c:#b98a52;--th:10px"></span><span class="blk" style="--x:18%;--y:66%;--w:64%;--d:26%;--bh:25px;--c:#58a6d8;--th:10px"></span><span class="blk" style="--x:18%;--y:6%;--w:64%;--d:26%;--bh:40px;--c:#e0a63f;--th:10px"></span><span class="blk" style="--x:18%;--y:66%;--w:64%;--d:26%;--bh:40px;--c:#d9ae74;--th:10px"></span><span class="blk" style="--x:18%;--y:6%;--w:64%;--d:26%;--bh:55px;--c:#c9985f;--th:10px"></span><span class="blk" style="--x:18%;--y:36%;--w:64%;--d:26%;--bh:55px;--c:#d9ae74;--th:10px"></span><span class="blk" style="--x:18%;--y:66%;--w:64%;--d:26%;--bh:55px;--c:#b98a52;--th:10px"></span></span>
+              <span class="billboard"><span class="bb-title"><i class="bb-icon">🗄️</i><b>STOCKAGE</b></span><span class="slot-count" id="storageCount">0 / 0</span></span>
+              <span class="parcel-row" id="storageParcels"></span>
+            </button>
+
+            <button class="station station-output" id="output" data-station="output">
+              <span class="blk" style="--x:8%;--y:10%;--w:34%;--d:34%;--bh:22px;--c:#8397a6;--rimg:linear-gradient(#10202c,#10202c) 15% 30% / 40% 40% no-repeat"></span><span class="blk" style="--x:54%;--y:18%;--w:36%;--d:30%;--bh:14px;--c:#58c78a"></span><span class="blk" style="--x:54%;--y:58%;--w:36%;--d:30%;--bh:14px;--c:#4cae7a"></span>
+              <span class="billboard"><span class="bb-title"><i class="bb-icon">🚚</i><b>QUAI D'EXPÉDITION</b></span><span class="slot-count" id="outputCount">0 / 0</span></span>
+              <span class="parcel-row" id="outputParcels"></span>
+            </button>
+
+            <div id="operator" class="operator selected" role="button" tabindex="0" aria-label="Opérateur">
+              <span class="op-model"><span class="blk" style="--x:14%;--y:22%;--w:72%;--d:56%;--bh:24px;--c:#e8892f;--rimg:linear-gradient(#eef3f6,#eef3f6) 0 52% / 100% 12% no-repeat,linear-gradient(#27384f,#27384f) 0 100% / 100% 42% no-repeat;--limg:linear-gradient(#eef3f6,#eef3f6) 0 52% / 100% 12% no-repeat,linear-gradient(#27384f,#27384f) 0 100% / 100% 42% no-repeat"></span><span class="blk" style="--x:-8%;--y:30%;--w:24%;--d:40%;--bh:21px;--c:#d97a27;--th:13px"></span><span class="blk" style="--x:84%;--y:30%;--w:24%;--d:40%;--bh:21px;--c:#d97a27;--th:13px"></span><span class="blk" style="--x:22%;--y:27%;--w:56%;--d:46%;--bh:36px;--c:#f0c7a0;--th:11px;--rimg:linear-gradient(#222,#222) 26% 48% / 14% 18% no-repeat,linear-gradient(#222,#222) 62% 48% / 14% 18% no-repeat"></span><span class="blk" style="--x:17%;--y:22%;--w:66%;--d:56%;--bh:40px;--c:#f1c66e;--th:6px"></span></span>
+              <span id="carriedParcel" class="carried hidden"></span>
+            </div>
+          </div>
+          </div>
+
+          <div class="zoom-controls">
+            <button id="zoomIn" class="secondary" title="Zoom avant" aria-label="Zoom avant">+</button>
+            <button id="zoomOut" class="secondary" title="Zoom arrière" aria-label="Zoom arrière">−</button>
+            <button id="zoomReset" class="secondary" title="Réinitialiser la vue" aria-label="Réinitialiser la vue">⌖</button>
+          </div>
+
+          <div class="factory-hint" id="factoryHint">
+            Opérateur disponible · Choisis une destination
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel stats-panel">
+        <h2>📊 Statistiques</h2>
+        <div class="metric"><span>Colis expédiés</span><b id="stShipped">0</b></div>
+        <div class="metric"><span>Recettes</span><b id="stRevenue">0</b></div>
+        <div class="metric"><span>Salaires versés</span><b id="stWages">0</b></div>
+        <div class="metric"><span>Bénéfice net</span><b id="stNet">0</b></div>
+        <div class="metric"><span>Opérateur</span><b id="operatorStatus">Disponible</b></div>
+
+        <button id="moreStatsBtn" class="secondary full" aria-expanded="false">Plus de statistiques ▾</button>
+
+        <div id="moreStats" hidden>
+          <h3>En cours</h3>
+          <div class="metric"><span>Colis à l'entrée</span><b id="metricEntry">3</b></div>
+          <div class="metric"><span>Au traitement</span><b id="metricWork">0</b></div>
+          <div class="metric"><span>En stockage</span><b id="metricStorage">0</b></div>
+          <div class="metric"><span>En attente de sortie</span><b id="metricOutput">0</b></div>
+          <h3>Production</h3>
+          <div class="metric"><span>Colis reçus</span><b id="stReceived">3</b></div>
+          <div class="metric"><span>Colis traités</span><b id="stProcessed">0</b></div>
+          <div class="metric"><span>Cadence</span><b id="stRate">—</b></div>
+          <div class="metric"><span>Durée de traitement</span><b>6 secondes</b></div>
+          <h3>Finances</h3>
+          <div class="metric"><span>Recette moyenne / jour</span><b id="stAvgDay">—</b></div>
+          <div class="metric"><span>Salaire / jour</span><b id="stWageDay">45</b></div>
+          <h3>Divers</h3>
+          <div class="metric"><span>Temps de jeu</span><b id="stTime">0:00</b></div>
+        </div>
+      </section>
+
+      <button id="investBtn" class="invest-btn">💼 Investissements</button>
+      <button id="manageBtn" class="invest-btn secondary">🏗️ Gestion de l'usine</button>
+    </aside>
+  </main>
+
+  <dialog id="rulesDialog" class="rules-dialog" aria-labelledby="rulesTitle">
+    <form method="dialog" class="rules-head">
+      <h2 id="rulesTitle">⚙ Règles du jeu</h2>
+      <button class="secondary" aria-label="Fermer">✕</button>
+    </form>
+    <div class="rules-body">
+      <h3>Comment jouer ?</h3>
+      <ol>
+        <li>Clique sur une zone pour y envoyer l'opérateur.</li>
+        <li>Il prend un colis à l'entrée et le transporte au poste.</li>
+        <li>Le colis est traité automatiquement.</li>
+        <li>S'il reste au poste, l'opérateur récupère le colis terminé.</li>
+        <li>Dépose-le à la sortie pour gagner des pièces : seuls les colis traités sont acceptés.</li>
+        <li>Tu peux aussi utiliser la zone de stockage : en arrivant sans colis, un menu te demande lequel prendre (colis traité pour la sortie, ou colis non traité pour le poste).</li>
+      </ol>
+
+      <h3>Économie</h3>
+      <ul>
+        <li>Chaque colis expédié rapporte 35 <i class="coin"></i>.</li>
+        <li>Un salaire de 45 <i class="coin"></i> est prélevé à chaque nouveau jour (90 secondes).</li>
+        <li>Un nouveau colis arrive à l'entrée toutes les 10 à 12 secondes environ, tant que l'entrée n'est pas pleine.</li>
+      </ul>
+
+      <h3>Code couleur des colis</h3>
+      <ul class="color-code">
+        <li><i class="dot big" style="background:#b8c0c8"></i><b>Gris</b> — colis à l'entrée</li>
+        <li><i class="dot big" style="background:#4a9be8"></i><b>Bleu</b> — colis non traité en cours de transport</li>
+        <li><i class="dot big" style="background:#e76b6b"></i><b>Rouge</b> — colis en attente au poste de traitement</li>
+        <li><i class="dot big" style="background:#f1c66e"></i><b>Jaune</b> — colis en cours de traitement</li>
+        <li><i class="dot big" style="background:#ed9b45"></i><b>Orange</b> — colis non traité en stockage</li>
+        <li><i class="dot big" style="background:#58c78a"></i><b>Vert</b> — colis traité (pendant le transport, en stockage ou à la sortie)</li>
+      </ul>
+
+      <h3>Contrôles</h3>
+      <ul>
+        <li>Molette pour zoomer, glisser pour déplacer la vue, ⌖ pour la réinitialiser.</li>
+        <li>Clique sur une zone pour y envoyer l'opérateur.</li>
+      </ul>
+
+      <h3>Partie</h3>
+      <div class="reset-zone">
+        <button id="resetBtn" type="button" class="btn-danger">Réinitialiser la partie</button>
+        <div id="resetConfirm" hidden>
+          <p>Toute la progression sera perdue. Confirmer ?</p>
+          <div class="reset-actions">
+            <button id="resetConfirmBtn" type="button" class="btn-danger">Confirmer la réinitialisation</button>
+            <button id="resetCancelBtn" type="button" class="secondary pill">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="investDialog" class="rules-dialog invest-dialog" aria-labelledby="investTitle">
+    <form method="dialog" class="rules-head">
+      <h2 id="investTitle">💼 Investissements</h2>
+      <button class="secondary" aria-label="Fermer">✕</button>
+    </form>
+    <div class="invest-grid">
+      <div class="invest-card" aria-disabled="true">
+        <span class="invest-icon">👥</span>
+        <b>RH</b>
+        <small>Ressources humaines · bientôt disponible</small>
+      </div>
+      <div class="invest-card" aria-disabled="true">
+        <span class="invest-icon">🛠️</span>
+        <b>Matériel</b>
+        <small>Équipements · bientôt disponible</small>
+      </div>
+      <div class="invest-card" aria-disabled="true">
+        <span class="invest-icon">🏭</span>
+        <b>Agrandissement de l'usine</b>
+        <small>Bientôt disponible</small>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="manageDialog" class="rules-dialog invest-dialog" aria-labelledby="manageTitle">
+    <form method="dialog" class="rules-head">
+      <h2 id="manageTitle">🏗️ Gestion de l'usine</h2>
+      <button class="secondary" aria-label="Fermer">✕</button>
+    </form>
+    <div class="manage-body">
+      <div class="invest-card manage-card" aria-disabled="true">
+        <span class="invest-icon">🧩</span>
+        <b>Réorganiser l'usine</b>
+        <small>Bientôt disponible</small>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="storageDialog" class="rules-dialog invest-dialog" aria-labelledby="storageTitle">
+    <form method="dialog" class="rules-head">
+      <h2 id="storageTitle">🗄️ Stockage</h2>
+      <button class="secondary" aria-label="Fermer">✕</button>
+    </form>
+    <div class="storage-body">
+      <p class="storage-intro" id="storageIntro">Quel colis veux-tu prendre ?</p>
+      <div class="storage-cols">
+        <section>
+          <h3><i class="dot big" style="background:#58c78a"></i> Prêts pour la sortie</h3>
+          <small>Colis déjà traités</small>
+          <div class="parcel-choices" id="choicesReady"></div>
+        </section>
+        <section>
+          <h3><i class="dot big" style="background:#ed9b45"></i> Prêts pour le poste de travail</h3>
+          <small>Colis non traités</small>
+          <div class="parcel-choices" id="choicesRaw"></div>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
